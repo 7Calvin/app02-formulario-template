@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulário de Backup</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <script>
+        function preencherParaTestes() {
+            document.getElementById("plano").value = "Vault";
+            document.getElementById("nome_cliente").value = "Calvin";
+            document.getElementById("aws_account_id").value = "11111111111";
+            document.getElementById("software").value = "Veeam";
+            document.getElementById("inicio_em_mes").value = "08";
+            document.getElementById("inicio_em_ano").value = "2024";
+            document.getElementById("link_grupo_whatsapp").value = "your-link-grupo-whatsapp";
+            document.getElementById("link_grupo_telegram").value = "your-link-grupo-telegram";
+            document.getElementById("link_ims").value = "your-link-ims";
+            document.getElementById("qtde_servidores").value = "33";
+            document.getElementById("rto_parcial").value = "4";
+            document.getElementById("rto_completo").value = "12";
+            document.getElementById("servicos_criticos").value = "AD, ERP, FS";
+        }
+    </script>
+</head>
+<body>
+    <h1>Preencher Informações de Backup</h1>
+    <form action="/gerar" method="post" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td class="label"><label for="aws_account_id">AWS Account ID:</label></td>
+                <td><input type="text" id="aws_account_id" name="aws_account_id" required></td>
+            </tr>
+            <tr>
+                <td class="label"><label for="nome_cliente">Nome do Cliente:</label></td>
+                <td><input type="text" id="nome_cliente" name="nome_cliente" required></td>
+            </tr>
+            <tr>
+                <td class="label"><label for="plano">Plano:</label></td>
+                <td>
+                    <select id="plano" name="plano" required>
+                        <option value="Vault">Vault</option>
+                        <option value="Start">Start</option>
+                        <option value="Essentials">Essentials</option>
+                        <option value="Enterprise">Enterprise</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label for="software">Software:</label></td>
+                <td>
+                    <select id="software" name="software" required>
+                        <option value="Veeam">Veeam</option>
+                        <option value="MSP360">MSP360</option>
+                        <option value="AWSBackup">AWSBackup</option>
+                        <option value="Veeam + AWSBackup">Veeam + AWSBackup</option>
+                        <option value="MSP360 + AWSBackup">MSP360 + AWSBackup</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label for="inicio_em_mes">Início em (Mês/Ano):</label></td>
+                <td>
+                    <select id="inicio_em_mes" name="inicio_em_mes" required>
+                        <option value="01">Janeiro</option>
+                        <option value="02">Fevereiro</option>
+                        <option value="03">Março</option>
+                        <option value="04">Abril</option>
+                        <option value="05">Maio</option>
+                        <option value="06">Junho</option>
+                        <option value="07">Julho</option>
+                        <option value="08">Agosto</option>
+                        <option value="09">Setembro</option>
+                        <option value="10">Outubro</option>
+                        <option value="11">Novembro</option>
+                        <option value="12">Dezembro</option>
+                    </select>
+                    <select id="inicio_em_ano" name="inicio_em_ano" required>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                        <option value="2030">2030</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label for="link_grupo_whatsapp">Link do grupo Whatsapp:</label></td>
+                <td><input type="text" id="link_grupo_whatsapp" name="link_grupo_whatsapp" required></td>
+            </tr>
+            <tr>
+                <td class="label"><label for="link_grupo_telegram">Link do grupo Telegram:</label></td>
+                <td><input type="text" id="link_grupo_telegram" name="link_grupo_telegram"></td>
+            </tr>
+            <tr>
+                <td class="label"><label for="link_ims">Link IMS:</label></td>
+                <td><input type="text" id="link_ims" name="link_ims" required></td>
+            </tr>
+            <tr>
+                <td class="label"><label for="qtde_servidores">Quantidade de servidores protegidos:</label></td>
+                <td><input type="number" id="qtde_servidores" name="qtde_servidores" required></td>
+            </tr>
+            <tr>
+                <td class="label"><label for="rto_parcial">RTO Parcial:</label></td>
+                <td><input type="number" id="rto_parcial" name="rto_parcial" required></td>
+            </tr>
+            <tr>
+                <td class="label"><label for="rto_completo">RTO Completo:</label></td>
+                <td><input type="number" id="rto_completo" name="rto_completo" required></td>
+            </tr>
+            <tr>
+                <td class="label"><label for="servicos_criticos">Serviços Críticos:</label></td>
+                <td><input type="text" id="servicos_criticos" name="servicos_criticos"></td>
+            </tr>
+        </table>
+        <input type="submit" value="Gerar Documento">
+        <button type="button" onclick="preencherParaTestes()">Preencher para Testes</button>
+    </form>
+</body>
+</html>

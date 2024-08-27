@@ -1,0 +1,51 @@
+App02 - Versão 1: Um aplicativo Flask que recebe dados via formulário HTML, 
+preenche templates DOCX específicos para cada plano selecionado, e gera documentos 
+personalizados para download.
+
+App02 - Versão 2: O aplicativo foi containerizado com Docker e implantado no Amazon 
+ECS na região us-east-2, usando Fargate para executar as tarefas.
+
+----------------------------------------------------------------------------------
+** Variaveis do .docx 
+  "plano": "vault",
+  "nome_cliente": "your-nome-cliente",
+  "aws_account_id": "11111111111",
+  "software": "your-software",
+  "inicio_em": "08/2024",
+  "link_grupo_whatsapp": "your-link-grupo-whatsapp",
+  "link_grupo_telegram": "your-link-grupo-telegram",
+  "link_ims": "your-link-ims",
+  "qtde_servidores": "33",
+  "rto_parcial": "4",
+  "rto_completo": "12",
+  "servicos_criticos": "your-servicos-criticos"
+
+** Docker Build container
+docker build -t app02:latest .
+docker run -p 5000:5000 app02:latest
+
+** Usando no ECS da AWS
+aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 646736044411.dkr.ecr.us-east-2.amazonaws.com
+docker tag app02:latest 646736044411.dkr.ecr.us-east-2.amazonaws.com/app02-repo:latest
+docker push 646736044411.dkr.ecr.us-east-2.amazonaws.com/app02-repo:latest
+aws ecs create-cluster --cluster-name app02-cluster --region us-east-2
+aws ecs register-task-definition --cli-input-json file://task-definition.json --region us-east-2
+aws ecs run-task \
+  --cluster app02-cluster \
+  --launch-type FARGATE \
+  --task-definition app02-task \
+  --network-configuration "awsvpcConfiguration={subnets=[subnet-0b84a1df108406161],securityGroups=[sg-0ea44ad11c3486257],assignPublicIp=ENABLED}" \
+  --region us-east-2
+
+
+Encerrar o Cluster ECS via AWS CLI
+aws ecs delete-cluster --cluster app02-cluster --region us-east-2
+
+Forçar a Interrupção de Todas as Tarefas no Cluster
+aws ecs list-tasks --cluster app02-cluster --region us-east-2
+aws ecs stop-task --cluster app02-cluster --task 'arn:..:task/abc123' --region us-east-2
+
+
+
+
+

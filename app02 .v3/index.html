@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>App02 - Versão 3</title>
+    <script>
+        function chamarApi() {
+            // Exibir uma mensagem de carregamento e iniciar a contagem regressiva
+            const loadingMessage = document.createElement('p');
+            loadingMessage.id = 'loading';
+            document.body.appendChild(loadingMessage);
+            let countdown = 15;
+
+            const interval = setInterval(() => {
+                loadingMessage.textContent = `Aguarde... Acessando a aplicação em ${countdown} segundos.`;
+                countdown--;
+
+                if (countdown < 0) {
+                    clearInterval(interval);
+                    // Após 15 segundos, fazer a chamada API e obter o link
+                    fetch('https://nwdqcn8146.execute-api.us-east-2.amazonaws.com/prod/start-task', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const publicIp = data.publicIp;
+                        const link = `http://${publicIp}:5000`;
+
+                        // Exibir o link clicável na página
+                        const linkElement = document.createElement('a');
+                        linkElement.href = link;
+                        linkElement.target = '_blank'; // Abre o link em uma nova aba
+                        linkElement.textContent = `Acesse a aplicação em ${link}`;
+
+                        // Remover a mensagem de carregamento e exibir o link
+                        document.body.removeChild(loadingMessage);
+                        document.body.appendChild(linkElement);
+                    })
+                    .catch((error) => {
+                        console.error('Erro ao iniciar a task:', error);
+                        loadingMessage.textContent = 'Erro ao iniciar a task. Por favor, tente novamente.';
+                    });
+                }
+            }, 1000);
+        }
+
+        function killTasks() {
+            fetch('https://nwdqcn8146.execute-api.us-east-2.amazonaws.com/prod/kill-tasks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Tasks encerradas: ' + data);
+            })
+            .catch((error) => {
+                console.error('Erro ao encerrar as tasks:', error);
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>App02 - Versão 3</h1>
+    <button onclick="chamarApi()">Iniciar Task</button>
+    <button onclick="killTasks()">Encerrar Tasks</button>
+</body>
+</html>
